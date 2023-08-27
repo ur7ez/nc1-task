@@ -42,6 +42,9 @@ Need to have PHP version **8.0** or above. Node.js version **12.0** or above.
 4. Start frontend by running `npm run dev` (starts vite server for Vue)
 5. Open http://localhost:5173
 
+## Notes for reviewer
+
+I did not use optional [`Element UI`](https://element.eleme.io/#/en-US) components library because it is for Vue2. While I know there is a newer version (called [Element Plus](https://element-plus.org/en-US/)) for Vue3, I decided to use alternative Vue components simply because I did not want to mix style approach between those proposed with Taiwindcss and general 'css styling' approach.
 
 ## License
 
