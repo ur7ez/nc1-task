@@ -13,20 +13,21 @@ class PropertyController extends Controller
      */
     public function index(Request $request)
     {
-        return PropertyResource::collection(Property::paginate());
+        return PropertyResource::collection(Property::paginate(5));
     }
 
     public function search(Request $request)
     {
         $data = $request->validate([
             'name' => 'nullable|string',
-            'price.min' => 'nullable|numeric|min:0|lte:price.max',
-            'price.max' => 'nullable|numeric|min:0|gte:price.min',
+            'price.min' => 'exclude_if:price.max,null|nullable|numeric|min:0|lte:price.max',
+            'price.max' => 'exclude_if:price.min,null|nullable|numeric|min:0|gte:price.min',
             'bedrooms' => 'nullable|numeric',
             'bathrooms' => 'nullable|numeric',
             'garages' => 'nullable|numeric|min:0',
             'storeys' => 'nullable|numeric|min:0',
         ]);
+
         $query = Property::query();
         if (!empty($data['name'])) {
             $name = mb_strtolower($data['name']);
@@ -52,10 +53,11 @@ class PropertyController extends Controller
         }
 
         return PropertyResource::collection($query->get())
-            ->additional([
-                'formData' => $data,
-                'sql' => Property::getSqlWithBindings($query),
-            ]);
+//            ->additional([
+//                'formData' => $data,
+//                'sql' => Property::getSqlWithBindings($query),
+//            ])
+            ;
     }
 
     /**
