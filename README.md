@@ -28,10 +28,11 @@ Need to have PHP version **8.0** or above. Node.js version **12.0** or above.
 3. Run `composer install`
 4. Create database
 5. Copy `.env.example` into `.env` file and configure database credentials. Adjust other  parameters, if needed.
-6. Run migrations and database default seeder:
+6. Run migrations and database default seeder.
 
     `php artisan migrate --seed`
 
+    <i><u>Note:</u></i> you may want to modify `data.csv` file included within `database/seeders` folder, or delete it to seed `properties` table with Laravel's generic data.
 7. Run `php artisan serve` to start the local server at http://localhost:8000
 
 #### Frontend
