@@ -129,6 +129,32 @@
           :style="{ animationDelay: `${ind * 0.1}s` }"
         />
       </div>
+
+      <!-- Pagination -->
+      <div v-if="properties.links" class="flex justify-center mt-5">
+        <nav class="relative z-0 inline-flex justify-center rounded-md shadow-sm -space-x-px"
+          aria-label="pagination">
+          <a
+            v-for="(link, i) of properties.links"
+            :key="i"
+            :disabled="!link.url"
+            href="#"
+            @click.prevent="getForPage($event, link)"
+            aria-current="page"
+            class="relative inline-flex items-center px-4 py-2 border text-sm font-medium whitespace-nowrap"
+            :class="[
+              link.active
+                ? 'z-10 bg-indigo-50 border-indigo-500 text-indigo-600'
+                : 'bg-white border-gray-300 text-gray-500 hover:bg-gray-50',
+              i === 0 ? 'rounded-l-md bg-gray-100 text-gray-700' : '',
+              i === properties.links.length - 1 ? 'rounded-r-md' : '',
+            ]"
+            v-html="link.label">
+          </a>
+        </nav>
+      </div>
+      <!-- / Pagination -->
+
     </div>
     <div v-else class="text-gray-600 text-center py-16">
       No properties were found (or maybe forgot to seed Database?)
@@ -143,7 +169,7 @@ import PropertyList from "../components/PropertyList.vue";
 import Alert from "../components/Alert.vue";
 import {computed, reactive, ref} from "vue";
 import store from "../store/index.js";
-import {useRouter} from "vue-router";
+// import {useRouter} from "vue-router";
 
 const properties = computed(() => store.state.properties);
 store.dispatch("getProperties");
@@ -161,31 +187,39 @@ const resetSearchProrertyForm = () => Object.assign(property, getInitialFormData
 
 let errorMsg = ref("");
 
-const router = useRouter();
+// const router = useRouter();
 function searchProperty() {
   store
     .dispatch("searchProperty", property)
     .then(() => {
-      // router.push({
-      //   name: "Properties",
-      // });
+      // router.push({name: "Properties",});
     })
     .catch((err) => {
-      let error = err?.response?.data ?? null;
+      let error = err.response?.data ?? null;
       if (error) {
         errorMsg.value = (error.message || '') + ("<div><pre>" + (error.errors ? JSON.stringify(error.errors) : null) + "</pre></div>");
+      } else if (err.message ?? null) {
+        error = JSON.stringify(err.message);
+        errorMsg.value = error;
       } else {
-        error = 'Something went wrong';
+        error = 'Something went wrong' + ("<pre>" + JSON.stringify(err)+ "</pre>");
         errorMsg.value = error;
       }
       store.commit("notify", {
         type: "error",
-        message: "Propety search failed: \n" + JSON.stringify(error),
+        message: "Propety search failed: \n" + error,
       });
     });
 }
 
 function resetData() {
   resetSearchProrertyForm();
+}
+
+function getForPage(ev, link) {
+  if (!link.url || link.active) {
+    return;
+  }
+  store.dispatch("getProperties", { url: link.url });
 }
 </script>

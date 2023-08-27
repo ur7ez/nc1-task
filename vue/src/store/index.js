@@ -15,6 +15,7 @@ const store = createStore({
     properties: {
       loading: false,
       data: [],
+      links: [],
     },
     notification: {
       show: false,
@@ -47,6 +48,7 @@ const store = createStore({
   },
   mutations: {
     setProperties: (state, properties) => {
+      state.properties.links = properties.meta?.links ?? [];
       state.properties.data = properties.data;
     },
     setPropertiesLoading: (state, loading) => {
