@@ -4,12 +4,13 @@
       <h1 class="text-3xl font-bold tracking-tight text-gray-900">About [task details]</h1>
     </template>
     <h2 class="text-2xl font-bold tracking-tight text-gray-700">PHP Developer Test </h2>
-    <div class="container">
+    <div class="">
       <section class="text-sm">
         <h3 class="text-xl font-semibold text-gray-700 py-3 underline">API</h3>
         <div>
           Using the provided CSV data, create an API route using Laravel that allows the data to be searched.
-          <p class="my-2">The data should be converted to a database table. Provide Laravel migrations and seeders within the
+          <p class="my-2">The data should be converted to a database table. Provide Laravel migrations and seeders
+            within the
             project.</p>
           The API should search on:
           <ul class="list-disc mx-10 py-4">
@@ -20,7 +21,10 @@
             <li>Garages: Exact match</li>
             <li>Price: Range (between $X and $Y)</li>
           </ul>
-          All search parameters should be optional, we should be able to search for 2 bedroom houses, or 4 bedroom and 2 bathroom houses, etc.
+          <p>
+            All search parameters should be optional, we should be able to search for 2 bedroom houses, or 4 bedroom and
+            2 bathroom houses, etc.
+          </p>
           <p class="mx2">The API should return JSON, with pure numeric data (not HTML content).</p>
         </div>
       </section>
